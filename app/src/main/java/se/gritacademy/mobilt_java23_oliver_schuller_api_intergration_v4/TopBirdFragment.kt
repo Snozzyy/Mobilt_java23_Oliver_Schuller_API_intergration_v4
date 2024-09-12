@@ -34,10 +34,10 @@ class TopBirdFragment : Fragment(R.layout.fragment_top_bird) {
         backPage = view.findViewById(R.id.backBtn)
         imageView = view.findViewById(R.id.imageView)
 
+        // Send request to eBird to get notable observations in sweden past 14 days
         val eBirdUrl = "https://api.ebird.org/v2/data/obs/SE/recent/notable?key=t8njjjct7d5k"
         var queue = Volley.newRequestQueue(context)
 
-        // Send request to eBird
         var stringRequest = StringRequest(Request.Method.GET, eBirdUrl,
             { response ->
                 birdCommonName = JSONArray(response).getJSONObject(0).getString("comName")
@@ -63,20 +63,18 @@ class TopBirdFragment : Fragment(R.layout.fragment_top_bird) {
         if (direction == "forward") {
             if (page < responseArray.length()) {
                 page++
-                birdCommonName = responseArray.getJSONObject(page).getString("comName")
-                birdNameTextView.text = birdCommonName
-                wikiReq()
             }
         } else if (direction == "back") {
             if (page > 0) {
                 page--
-                birdCommonName = responseArray.getJSONObject(page).getString("comName")
-                birdNameTextView.text = birdCommonName
-                wikiReq()
             }
         }
+        birdCommonName = responseArray.getJSONObject(page).getString("comName")
+        birdNameTextView.text = birdCommonName
+        wikiReq()
     }
 
+    // Request image from Wikipedia API
     private fun wikiReq() {
         wikiUrl = "https://en.wikipedia.org/w/api.php?action=query&prop=pageimages|pageprops&format=json&piprop=thumbnail&titles=${birdCommonName.lowercase().replace(" ", "%20")}&pithumbsize=300"
 

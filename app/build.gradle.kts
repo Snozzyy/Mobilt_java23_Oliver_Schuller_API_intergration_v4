@@ -47,7 +47,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.volley)
 
-    implementation(files("libs/coil-2.7.0-sources.jar"))
+    // implementation(files("libs/coil-2.7.0-sources.jar"))
     implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
