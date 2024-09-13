@@ -116,7 +116,7 @@ class ObservationFragment : Fragment(R.layout.fragment_observation) {
     // Get data about observation
     @SuppressLint("SetTextI18n")
     private fun eBirdCall() {
-        val eBirdUrl = "https://api.ebird.org/v2/data/obs/geo/recent?lat=55%2E59&lng=13%2E02&key=t8njjjct7d5k"
+        val eBirdUrl = "https://api.ebird.org/v2/data/obs/geo/recent?lat=$latitude&lng=$longitude&key=t8njjjct7d5k"
         var queue = Volley.newRequestQueue(context)
 
         var stringRequest = StringRequest(
