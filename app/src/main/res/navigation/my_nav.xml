@@ -23,4 +23,9 @@
             android:id="@+id/action_topBirdFragment_to_observationFragment"
             app:destination="@id/observationFragment" />
     </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="se.gritacademy.mobilt_java23_oliver_schuller_api_intergration_v4.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
 </navigation>

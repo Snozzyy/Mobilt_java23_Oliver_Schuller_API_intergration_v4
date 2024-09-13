@@ -61,7 +61,7 @@ class TopBirdFragment : Fragment(R.layout.fragment_top_bird) {
 
     private fun changePage(direction: String) {
         if (direction == "forward") {
-            if (page < responseArray.length()) {
+            if (page < responseArray.length() - 1) {
                 page++
             }
         } else if (direction == "back") {
@@ -76,7 +76,10 @@ class TopBirdFragment : Fragment(R.layout.fragment_top_bird) {
 
     // Request image from Wikipedia API
     private fun wikiReq() {
-        wikiUrl = "https://en.wikipedia.org/w/api.php?action=query&prop=pageimages|pageprops&format=json&piprop=thumbnail&titles=${birdCommonName.lowercase().replace(" ", "%20")}&pithumbsize=300"
+
+        // Make birdCommonName suitable for API parameter value
+        birdCommonName = birdCommonName.lowercase().replace(" ", "%20")
+        wikiUrl = "https://en.wikipedia.org/w/api.php?action=query&prop=pageimages|pageprops&format=json&piprop=thumbnail&titles=${birdCommonName}&pithumbsize=300"
 
         val queue = Volley.newRequestQueue(context)
         val stringRequest = StringRequest(Request.Method.GET, wikiUrl,
@@ -85,7 +88,7 @@ class TopBirdFragment : Fragment(R.layout.fragment_top_bird) {
                 var data = JSONObject(response).getJSONObject("query").getJSONObject("pages")
                 var nextKey = data.keys().next()
 
-                // Checks if picture exists for bird
+                // Checks if picture exists for bird, else display "not found" image
                 if (data.getJSONObject(nextKey).has("thumbnail")) {
                     imageUrl = data.getJSONObject(nextKey).getJSONObject("thumbnail").getString("source")
                     imageView.load(imageUrl)

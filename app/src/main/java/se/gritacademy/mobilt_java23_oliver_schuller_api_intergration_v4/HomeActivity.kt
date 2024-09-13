@@ -6,10 +6,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var fragBtn1: Button
-    lateinit var fragBtn2: Button
+    private lateinit var nearMeBtn: Button
+    private lateinit var notableBtn: Button
+    private lateinit var logoutBtn: Button
+
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,26 +26,28 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
-        fragBtn1 = findViewById(R.id.fragBtn1)
-        fragBtn2 = findViewById(R.id.fragBtn2)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navController = navHostFragment.navController
 
-        val topBirdsFragment = TopBirdFragment()
-        val observationsFragment = ObservationFragment()
+        nearMeBtn = findViewById(R.id.nearMeBtn)
+        notableBtn = findViewById(R.id.notableBtn)
+        logoutBtn = findViewById(R.id.logoutBtn)
 
-        fragBtn1.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentContainerView, observationsFragment)
-                addToBackStack(null)
-                commit()
-            }
+        nearMeBtn.setOnClickListener {
+            if (navController.currentDestination!!.id != R.id.observationFragment)
+                navController.navigate(R.id.action_topBirdFragment_to_observationFragment)
+
         }
 
-        fragBtn2.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentContainerView, topBirdsFragment)
-                addToBackStack(null)
-                commit()
-            }
+        notableBtn.setOnClickListener {
+            if (navController.currentDestination!!.id != R.id.topBirdFragment)
+                navController.navigate(R.id.action_observationFragment_to_topBirdFragment)
+        }
+
+        // Clears backstack and navigates to login screen
+        logoutBtn.setOnClickListener {
+            // finishAffinity()
+            navController.navigate(R.id.mainActivity)
         }
     }
 }
