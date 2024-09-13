@@ -62,9 +62,6 @@ class ObservationFragment : Fragment(R.layout.fragment_observation) {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
         imageView = view.findViewById(R.id.imageView)
 
-        sendNotification()
-
-
         if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -78,6 +75,7 @@ class ObservationFragment : Fragment(R.layout.fragment_observation) {
         val location = fusedLocationProviderClient.lastLocation
         location.addOnSuccessListener {
             if (it != null) {
+                sendNotification()
                 // Make coordinate compatible with API
                 latitude = String.format("%.2f", it.latitude).replace(",", "%2E")
                 longitude = String.format("%.2f", it.longitude).replace(",", "%2E")

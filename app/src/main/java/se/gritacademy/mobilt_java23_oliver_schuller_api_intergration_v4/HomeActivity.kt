@@ -46,7 +46,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Clears backstack and navigates to login screen
         logoutBtn.setOnClickListener {
-            // finishAffinity()
+            finishAffinity()
             navController.navigate(R.id.mainActivity)
         }
     }
